@@ -3,17 +3,22 @@
 </head>
 <body>
   <script>
-    var renwu = ['杨吉','孙权','卢本伟']
-    var shijian = ['一大清早','中午','下午','深更半夜']
-    var didian = ['在教室','在操场','在宿舍','在厕所','在食堂']
-    var huodong = ['吃饭','打球','打游戏','看电影']
-    
-    var r = Math.floor(Math.random() * 3)
-    var s = Math.floor(Math.random() * 4)
-    var d = Math.floor(Math.random() * 5)
-    var h = Math.floor(Math.random() * 4)
+    function sentenceMaking() {
+    var person = ['杨吉','孙权','卢本伟','小刚牙','余浩',
+                  '濮徐杰','王达','沈宇峰','徐杨','林超凡',
+                  '孔易飞','朱铭阳','PDD','顾强','徐超','吴策','渣老师']
+    var time = ['一大清早','中午','下午','深更半夜']
+    var site = ['在教室','在操场','在宿舍','在厕所','在食堂']
+    var activity = ['吃饭','打球','打游戏','看电影']
 
-    alert(renwu[r] + shijian[s] + didian[d] + huodong[h])
+    function chooseRandStrInArray(array) {
+      return array[Math.floor(Math.random() * array.length)]
+    }
+
+    document.write('<h1>' + chooseRandStrInArray(person) + chooseRandStrInArray(time) + chooseRandStrInArray(site) + chooseRandStrInArray(activity) + '</h1>')
+
+    }
+    sentenceMaking();
   </script>
 </body>
 </html>
