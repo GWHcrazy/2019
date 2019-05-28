@@ -18,36 +18,50 @@ var model = {
   numShips: 3,
   shipsSunk: 0,
   shipLength: 3,
-  ships: [ { locations: [0, 0, 0], hits: ["", "", ""] },
+  ships:  [ { locations: [0, 0, 0], hits: ["", "", ""] },
             { locations: [0, 0, 0], hits: ["", "", ""] },
-            { locations: [0, 0, 0], hits: ["", "", ""] } ],
+            { locations: [0, 0, 0], hits: ["", "", ""] },],
+  // biasnse: function (guess) {
+  //   for (var i = 0; i < this.ship; i++) {
+  //     getElementById(guess);
+  //     var d=document.getElementById('td');
+  //     d.style.background-color =='red';
+  //   }
+  // },
   fire: function(guess) {
     for (var i = 0; i < this.numShips; i++) {
       var ship = this.ships[i];
       var index = ship.locations.indexOf(guess);
       if (index >= 0) {
-        ship.hits[index] = "hit";
+        ship.hits[index] = 'hit';
+        for (var i = 0; i < ship.locations.length; i++) {
+          view.displayHit(ship.locations[i])
+        }
         view.displayHit(guess);
-        view.displaymessageArea('Hit!');
+        view.displaymessageArea("Hit!");
         if (this.isSunk(ship)) {
-          view.displaymessageArea('You sank my battleship!');
+          view.displaymessageArea("You Hit My Ship!");
           this.shipsSunk++;
+          for (var k = 0; k < this.shipLength; k++) {
+            var daji = document.getElementById(ship.locations[k])
+            daji.style.backgroundImage = 'url(baozha.png)'
+          }
         }
         return true;
       }
     }
     view.displayMiss(guess);
-    view.displaymessageArea('You Missed.');
+    view.displaymessageArea("You Miss.");
     return false;
   },
   isSunk: function(ship) {
     var count = 0;
     for (var i = 0; i < this.shipLength; i++) {
       if (ship.hits[i] === "hit") {
-        count++;
-        if (count > this.shipLength * 0.66) {
-          return true;
-        }
+        count++
+      }
+      if (count > this.shipLength * 0.666) {
+        return true;
       }
     }
     return false;
@@ -96,7 +110,13 @@ var model = {
 var controller = {
   guesses: 0,
   processGuess: function(e) {
-    var location = e.target.id;
+    var paramType = typeof e;
+    var location
+    if (paramType === 'object') {
+      location = e.target.id
+    } else {
+      location = parseGuess(e)
+    }
     if (location) {
       controller.guesses++;
       var hit = model.fire(location);
@@ -137,8 +157,6 @@ function init() {
     mouseFire[i].onclick = controller.processGuess;
   }
 }
-
-
 function handleFireButton() {
   var guessInput = document.getElementById("guessInput");
   var guess = guessInput.value;
